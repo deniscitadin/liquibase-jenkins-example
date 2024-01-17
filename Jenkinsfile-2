@@ -1,0 +1,22 @@
+pipeline {
+  agent {
+    docker { image 'liquibase/liquibase:4.4.2' }
+  }
+  stages {
+    stage('Status') {
+      steps {
+        sh 'liquibase status --url="jdbc:mysql://localhost:5432/aspira" --changeLogFile=init_webtools.sql --username=postgres --password=Postgres2024!'
+      }
+    }
+    stage('Update') {
+      steps {
+        sh 'liquibase update --url="jdbc:mysql://localhost:5432/aspira" --changeLogFile=init_webtools.sql --username=postgres --password=Postgres2024!'
+      }
+    }
+  }
+  post {
+    always {
+      cleanWs()
+    }
+  }
+}
