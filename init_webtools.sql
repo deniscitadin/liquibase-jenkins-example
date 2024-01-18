@@ -1,3 +1,4 @@
+--liquibase formatted sql
 --changeset denis:1
 
 create type email_template_type as enum ('generic', 'magic_link');
@@ -519,5 +520,10 @@ delete from webtools.astra_import_log where firefly_account_id = CASE WHEN purge
     $$;
 
 alter procedure delete_astra_import(uuid, uuid, boolean) owner to firefly_dev_developer;*/
-
+--changeset bandrade:2
+create table test1 (  
+    id int primary key,
+    name varchar(255)  
+);  
+--rollback drop table test1; 
 
