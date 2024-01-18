@@ -516,8 +516,8 @@ delete from webtools.astra_import_log where firefly_account_id = CASE WHEN purge
     call firefly_app.delete_property(property_id);
     call firefly_app.delete_account(account_id);
 
-    $$;*/
+    $$;
 
-alter procedure delete_astra_import(uuid, uuid, boolean) owner to firefly_dev_developer;
+alter procedure delete_astra_import(uuid, uuid, boolean) owner to firefly_dev_developer;*/
 
 
