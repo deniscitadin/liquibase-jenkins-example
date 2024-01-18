@@ -463,11 +463,11 @@ create index astra_import_imported_astra_key_index
 create index astra_import_imported_firefly_property_id_idx
     on astra_import_imported (firefly_property_id);
 
-grant delete, insert, references, select, trigger, truncate, update on astra_import_imported to firefly_dev_owner_role;
+-- grant delete, insert, references, select, trigger, truncate, update on astra_import_imported to firefly_dev_owner_role;
 
-grant delete, insert, select, update on astra_import_imported to firefly_dev_app_svc_role;
+-- grant delete, insert, select, update on astra_import_imported to firefly_dev_app_svc_role;
 
-grant delete, insert, select, update on astra_import_imported to developer_role;
+-- grant delete, insert, select, update on astra_import_imported to developer_role;
 
 create view v_user_permissions(link, action, user_id, role_id, role_name, permission_id) as
 SELECT p.link,
@@ -504,7 +504,7 @@ WHERE ak.deleted_at IS NULL
 alter table v_api_scopes
     owner to firefly_dev_developer;
 
-create procedure delete_astra_import(account_id uuid, property_id uuid, purgelog boolean)
+/* create procedure delete_astra_import(account_id uuid, property_id uuid, purgelog boolean)
     language sql
 as
 $$
@@ -518,6 +518,6 @@ delete from webtools.astra_import_log where firefly_account_id = CASE WHEN purge
 
     $$;
 
-alter procedure delete_astra_import(uuid, uuid, boolean) owner to firefly_dev_developer;
+alter procedure delete_astra_import(uuid, uuid, boolean) owner to firefly_dev_developer;*/
 
 
