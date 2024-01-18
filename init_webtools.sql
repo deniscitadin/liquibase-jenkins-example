@@ -463,11 +463,11 @@ create index astra_import_imported_astra_key_index
 create index astra_import_imported_firefly_property_id_idx
     on astra_import_imported (firefly_property_id);
 
-grant delete, insert, references, select, trigger, truncate, update on astra_import_imported to firefly_dev_owner_role;
+-- grant delete, insert, references, select, trigger, truncate, update on astra_import_imported to firefly_dev_owner_role;
 
-grant delete, insert, select, update on astra_import_imported to firefly_dev_app_svc_role;
+-- grant delete, insert, select, update on astra_import_imported to firefly_dev_app_svc_role;
 
-grant delete, insert, select, update on astra_import_imported to developer_role;
+-- grant delete, insert, select, update on astra_import_imported to developer_role;
 
 create view v_user_permissions(link, action, user_id, role_id, role_name, permission_id) as
 SELECT p.link,
