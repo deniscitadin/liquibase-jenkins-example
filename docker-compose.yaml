@@ -10,14 +10,16 @@ services:
       - 50000:50000
     container_name: jenkins
     volumes:
-      - /home/denis/jenkins_compose/jenkins_configuration:/var/jenkins_home
+ #     - /home/denis/jenkins_compose/jenkins_configuration:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
   postgres:
-    image: postgres
+    image: postgres 
+    container_name: postgres
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
+      POSTGRES_DB: "aspira"
+      POSTGRES_USER: "firefly_dev_developer"
       POSTGRES_PASSWORD: "Postgres2024!"
     ports:
       - "5432:5432"
-
