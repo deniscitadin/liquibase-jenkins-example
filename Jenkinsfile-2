@@ -1,22 +1,44 @@
 pipeline {
-  agent {
-    docker { image 'liquibase/liquibase:4.4.2' }
-  }
-  stages {
-    stage('Status') {
-      steps {
-        sh 'liquibase status --url="jdbc:mysql://localhost:5432/aspira" --changeLogFile=init_webtools.sql --username=postgres --password=Postgres2024!'
-      }
+    agent any
+
+    environment {
+        // Database connection details
+        DB_URL = 'jdbc:postgresql://postgres:5432/aspira'
+        DB_USER = 'firefly_dev_developer'
+        DB_PASSWORD = 'Postgres2024!'
+        // Liquibase changelog file
+        CHANGELOG_FILE = 'init_webtools.sql'
+        // Define Liquibase executable
+        LIQUIBASE_HOME = tool 'liquibase'
+        LIQUIBASE_CMD = "${LIQUIBASE_HOME}/liquibase"
     }
-    stage('Update') {
-      steps {
-        sh 'liquibase update --url="jdbc:mysql://localhost:5432/aspira" --changeLogFile=init_webtools.sql --username=postgres --password=Postgres2024!'
-      }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/deniscitadin/liquibase-jenkins-example.git'
+            }
+        }
+
+        stage('Build and Migrate Database') {
+            steps {
+                script {
+                    // Change to the directory where the Liquibase binary is located
+                    dir("${LIQUIBASE_HOME}") {
+                        // Liquibase update command
+                        sh """
+                            ${LIQUIBASE_CMD} \\
+                            --url=${DB_URL} \\
+                            --username=${DB_USER} \\
+                            --password=${DB_PASSWORD} \\
+                            --searchPath="/var/jenkins_home/workspace/liquibase/" \\
+                            --changeLogFile=${CHANGELOG_FILE} update \\
+                            --defaultSchemaName=webtools
+                        """
+                    }
+                }
+            }
+        }
     }
-  }
-  post {
-    always {
-      cleanWs()
-    }
-  }
 }
